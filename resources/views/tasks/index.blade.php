@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="container">
-        <div class="col-sm-offset-0 col-sm-13">
+        <div class="">
             <!-- Current Tasks -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class='btn-group pull-left'>
+                    <div class='btn-group pull-left col-xs-1'>
                         <a title="Добавить" class='hidden-print' href="/tasks/add" ><span class='glyphicon glyphicon-plus'></span></a>
                         <a title="Поиск" class='hidden-print' href="#" ><span class='glyphicon glyphicon-search'></span></a>
                     </div>
