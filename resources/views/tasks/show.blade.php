@@ -30,45 +30,48 @@
                         <div class="col-sm-6">{{ $task->priority->name }}</div>
                     </div>
 
+
                     <!-- Task state -->
                     <div class="row">
                         <label for="task-state" class="col-sm-2 control-label">Состояние</label>
                         <div class="col-sm-3">{{ $task->state->name }}</div>
 
                         <!-- Choose State -->
-                        <form action="{{url('tasks/' . $task->id) . '/changestate'}}" method="POST" class="form-horizontal">
-                            {{ csrf_field() }}
-                            <div class="col-sm-4">
-                                <p><select size="6" multiple name="state_id" class="form-control">
-                                        @foreach ( \App\State::all() as $state )
-                                            @if(( $request->user()->id == $task->author_id ) || ( $request->user()->isAdmin() ))
-                                                @if( $state->id == $task->state_id )
-                                                    <option selected value={{$state->id}}>{{$state->name}}</option>
-                                                @else
-                                                    <option value={{$state->id}}>{{$state->name}}</option>
-                                                @endif
-                                            @elseif($request->user()->id == $task->user_id)
-                                                @if( $state->name == 'в работе' || $state->name == 'выполнена' || $state->name == 'не выполнена')
+                        @if(( $request->user()->id == $task->author_id ) || ( $request->user()->isAdmin() ) || ($request->user()->id == $task->user_id))
+                            <form action="{{url('tasks/' . $task->id) . '/changestate'}}" method="POST" class="form-horizontal">
+                                {{ csrf_field() }}
+                                <div class="col-sm-4">
+                                    <p><select size="6" multiple name="state_id" class="form-control">
+                                            @foreach ( \App\State::all() as $state )
+                                                @if(( $request->user()->id == $task->author_id ) || ( $request->user()->isAdmin() ))
                                                     @if( $state->id == $task->state_id )
                                                         <option selected value={{$state->id}}>{{$state->name}}</option>
                                                     @else
                                                         <option value={{$state->id}}>{{$state->name}}</option>
                                                     @endif
+                                                @elseif($request->user()->id == $task->user_id)
+                                                    @if( $state->name == 'в работе' || $state->name == 'выполнена' || $state->name == 'не выполнена')
+                                                        @if( $state->id == $task->state_id )
+                                                            <option selected value={{$state->id}}>{{$state->name}}</option>
+                                                        @else
+                                                            <option value={{$state->id}}>{{$state->name}}</option>
+                                                        @endif
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        @endforeach
-                                    </select></p>
-                            </div>
-
-                            <!-- Add Task Button -->
-                            <div class="form-group">
-                                <div class="col-sm-1">
-                                    <button type="submit" class="btn btn-default center-block">
-                                        <i class="fa fa-btn fa-exchange"></i>Изменить
-                                    </button>
+                                            @endforeach
+                                        </select></p>
                                 </div>
-                            </div>
-                        </form>
+
+                                <!-- Add Task Button -->
+                                <div class="form-group">
+                                    <div class="col-sm-1">
+                                        <button type="submit" class="btn btn-default center-block">
+                                            <i class="fa fa-btn fa-exchange"></i>Изменить
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        @endif
                     </div>
 
                     <!-- Task text -->
