@@ -53,6 +53,11 @@
                 <a class="navbar-brand" href="{{ url('/news') }}">
                     Новости
                 </a>
+
+                <!-- Sms -->
+                <a class="navbar-brand" href="{{ url('/sms') }}">
+                    Отправить SMS
+                </a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">

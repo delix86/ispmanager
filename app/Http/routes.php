@@ -48,4 +48,10 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::auth();
 
+    //SMS
+    Route::get('/sms', 'SmsController@index');
+    Route::post('/sms/add', 'SmsController@add');
+    Route::get('/sms/{task}/show', 'SmsController@show');
+    Route::get('/sms/add', 'SmsController@add');
+
 });
