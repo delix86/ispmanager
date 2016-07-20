@@ -29,10 +29,12 @@ class SmsRepository
 
         $result = [];
 
-        $login = 'delix';
-        $psw = 'qawsedrf';
-
+        $login = env('SMS_USERNAME', false);
+        $psw = env('SMS_PASSWORD', false);
         $url = 'http://smsc.ru/sys/send.php?login='.$login.'&psw='.$psw.'&phones='.$phone_number.'&mes='.$text.'&fmt=3&charset=utf-8';
+
+        //echo var_dump( $url);
+        //die();
 
         $response = Curl::to($url)->get();
 
