@@ -36,6 +36,11 @@ class Task extends Model
         return $this->hasMany('App\Note');
     }
 
+    public function sms()
+    {
+        return $this->hasMany('App\Sms');
+    }
+
     /**
      * Get the user that owns the task.
      */
