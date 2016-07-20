@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use \App\User;
 use App\Task;
 use \App\State;
 use App\Repositories\TaskRepository;
+use App\Repositories\SmsRepository;
 
 class TaskController extends Controller
 {
@@ -107,7 +109,32 @@ class TaskController extends Controller
             'user_id' => $request->user_id,
         ]);
         $task->save();
-        
+
+        // Create SMS if checked
+        if($request->cheсksms) {
+
+            $send_result = SmsRepository::send(
+                $request->name,
+                User::where('id', $request->user_id)->first()->phone
+            );
+
+            $task->sms()->create([
+                'text' => $request->name,
+                'sender_id' => $request->user()->id,
+                'recipient_id' => $request->user_id,
+                'phone' => $request->phone,
+                'status' => $send_result['status'],
+                'error_code' => $send_result['error_code'],
+            ]);
+        }
+
+        // Create Status Message
+        $request->user()->notes()->create([
+            //'text' =>  '"'. $request->user()->name . '"'. ' ИЗМЕНИЛ СТАТУС НА: ' . '<' . State::where('id', $request->state_id )->first()->name . '>',
+            'text' =>  ' ИЗМЕНЁН СТАТУС: ' . '___' . State::where('name', 'открыта')->first()->name . '___',
+            'task_id' => $task->id,
+        ]);
+
         /*
         $request->user()->tasks()->create([
             'author_id' => $request->user()->id,
@@ -209,8 +236,15 @@ class TaskController extends Controller
         $this->authorize('changestate', $task);
 
         // if Admin or Author
-        if( $request->user()->isAdmin() || $request->user()->id == $task->author_id )
-            $task->update( ['state_id' => $request->state_id]);
+        if( $request->user()->isAdmin() || $request->user()->id == $task->author_id ) {
+            $task->update(['state_id' => $request->state_id]);
+            $request->user()->notes()->create([
+                //'text' =>  '"'. $request->user()->name . '"'. ' ИЗМЕНИЛ СТАТУС НА: ' . '<' . State::where('id', $request->state_id )->first()->name . '>',
+                'text' =>  ' ИЗМЕНЁН СТАТУС: ' . '___' . State::where('id', $request->state_id )->first()->name . '___',
+                'task_id' => $task->id,
+            ]);
+        }
+
 
         // if User and state is 'в работе' or 'выполнена' or 'не выполнена'
         elseif ( ($request->user()->id == $task->user_id) && ( $task->state->name == 'в работе' || $task->state->name == 'выполнена' || $task->state->name == 'не выполнена' ))
