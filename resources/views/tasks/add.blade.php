@@ -108,6 +108,8 @@
                                             <option value={{$user->id}}>{{$user->name}}</option>
                                         @endforeach
                                     </select></p>
+
+                                <input type="checkbox" name="cheсksms" value="1">Отправить СМС<Br>
                             </div>
                         </div>
 
