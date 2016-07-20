@@ -86,11 +86,11 @@
                             @foreach ($smses as $sms)
                                 <tr @if($sms->status) class="" @else class="danger" @endif>
                                     <td class="table-text"><div>{{ $sms->id }}</div></td>
-                                    <td class="table-text"><div><a href="/tasks/{{$sms->id}}/show" >{{ $sms->text }}</a></div></td>
+                                    <td class="table-text"><div>{{ $sms->text }}</div></td>
                                     <td class="table-text"><div>@if($sms->sender){{ $sms->sender->name }}@endif</div></td>
                                     <td class="table-text"><div>@if($sms->recipient){{ $sms->recipient->name }}@endif</div></td>
                                     <td class="table-text"><div>{{ $sms->phone }}</td>
-                                    <td class="table-text"><div>@if($sms->task){{ $sms->task->name }}@endif</div></td>
+                                    <td class="table-text"><div>@if($sms->task)<a href="/tasks/{{$sms->task->id}}/show" >{{ $sms->task->name }}</a>@endif</div></td>
                                     <td class="table-text"><div><div>@if($sms->status)<span class="glyphicon glyphicon-ok-sign"></span> Да @else <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Нет@endif</div></div></td>
                                     <td class="table-text"><div><div>@if($sms->error_code) {{ $sms->getErrorText() }}@endif</div></td>
                                     <td class="table-text"><div>{{ $sms->created_at }}</div></td>
