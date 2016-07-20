@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+        <h1>Задачи</h1>
         <div class="">
             <!-- Current Tasks -->
             <div class="panel panel-default">
