@@ -215,11 +215,25 @@ class TaskController extends Controller
         // Change state 'выполнена' -> 'выполнена и закрыта'
         if( $task->state->name == 'выполнена') {
             $task->update( ['state_id' => State::where('name', 'выполнена и закрыта')->first()->id]);
+
+            // Add a note with changed status
+            $request->user()->notes()->create([
+                //'text' =>  '"'. $request->user()->name . '"'. ' ИЗМЕНИЛ СТАТУС НА: ' . '<' . State::where('id', $request->state_id )->first()->name . '>',
+                'text' =>  ' ИЗМЕНЁН СТАТУС: ' . '___' . State::where('id', $task->state_id )->first()->name . '___',
+                'task_id' => $task->id,
+            ]);
         }
 
         // Change state 'не выполнена' -> 'не выполнена и закрыта'
         if( $task->state->name == 'не выполнена') {
             $task->update( ['state_id' => State::where('name', 'не выполнена и закрыта')->first()->id]);
+
+            // Add a note with changed status
+            $request->user()->notes()->create([
+                //'text' =>  '"'. $request->user()->name . '"'. ' ИЗМЕНИЛ СТАТУС НА: ' . '<' . State::where('id', $request->state_id )->first()->name . '>',
+                'text' =>  ' ИЗМЕНЁН СТАТУС: ' . '___' . State::where('id', $task->state_id )->first()->name . '___',
+                'task_id' => $task->id,
+            ]);
         }
 
         return redirect('/tasks/'.$task->id.'/show');
@@ -238,6 +252,8 @@ class TaskController extends Controller
         // if Admin or Author
         if( $request->user()->isAdmin() || $request->user()->id == $task->author_id ) {
             $task->update(['state_id' => $request->state_id]);
+
+            // Add a note with changed status
             $request->user()->notes()->create([
                 //'text' =>  '"'. $request->user()->name . '"'. ' ИЗМЕНИЛ СТАТУС НА: ' . '<' . State::where('id', $request->state_id )->first()->name . '>',
                 'text' =>  ' ИЗМЕНЁН СТАТУС: ' . '___' . State::where('id', $request->state_id )->first()->name . '___',
@@ -245,10 +261,16 @@ class TaskController extends Controller
             ]);
         }
 
+        // if User of task and state is 'в работе' or 'выполнена' or 'не выполнена'
+        elseif ( ($request->user()->id == $task->user_id) && ( $task->state->name == 'в работе' || $task->state->name == 'выполнена' || $task->state->name == 'не выполнена' )) {
+            $task->update(['state_id' => $request->state_id]);
 
-        // if User and state is 'в работе' or 'выполнена' or 'не выполнена'
-        elseif ( ($request->user()->id == $task->user_id) && ( $task->state->name == 'в работе' || $task->state->name == 'выполнена' || $task->state->name == 'не выполнена' ))
-            $task->update( ['state_id' => $request->state_id]);
+            // Add a note with changed status
+            $request->user()->notes()->create([
+                'text' =>  ' ИЗМЕНЁН СТАТУС: ' . '___' . State::where('id', $request->state_id )->first()->name . '___',
+                'task_id' => $task->id,
+            ]);
+        }
 
         return redirect('/tasks/'.$task->id.'/show');
     }
