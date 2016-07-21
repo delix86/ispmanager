@@ -21,7 +21,7 @@ class SmsRepository
         } elseif ($user->isSupport()){
             return Sms::orderBy('created_at', 'dsc')->paginate(25);
         }elseif ($user->isWorker()){
-            return Task::where( 'user_id' , $user->id )->orWhere('author_id' , $user->id)->orderBy('created_at', 'dsc')->paginate(25); // return all tasks
+            return Sms::where( 'user_id' , $user->id )->orWhere('author_id' , $user->id)->orderBy('created_at', 'dsc')->paginate(25); // return all tasks
         }
     }
 
