@@ -39,7 +39,7 @@
                         <!-- Choose State -->
                         @if(( $request->user()->id == $task->author_id ) ||
                             ( $request->user()->isAdmin() ) ||
-                            ( ($request->user()->id == $task->user_id) && ( $task->name == 'открыта' || $task->name == 'в работе' )) )
+                            ( ($request->user()->id == $task->user_id) && ( $task->state->name == 'открыта' || $task->state->name == 'в работе' )) )
                             <form action="{{url('tasks/' . $task->id) . '/changestate'}}" method="POST" class="form-horizontal">
                                 {{ csrf_field() }}
                                 <div class="col-sm-4">
