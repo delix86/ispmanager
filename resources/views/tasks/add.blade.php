@@ -18,7 +18,7 @@
 
                     <!-- Task Name -->
                         <div class="form-group">
-                            <label for="task-name" class="col-sm-4 control-label">Название (макс 50 симвл.) *</label>
+                            <label for="task-name" class="col-sm-4 control-label">Название (макс 33 симвл.) *</label>
 
                             <div class="col-sm-6">
                                 <input type="text" name="name" id="task-name" class="form-control" value="{{ old('task') }}">
@@ -27,7 +27,7 @@
 
                         <!-- Task Text -->
                         <div class="form-group">
-                            <label for="task-text" class="col-sm-4 control-label">Описание</label>
+                            <label for="task-text" class="col-sm-4 control-label">Описание (подробно)</label>
 
                             <div class="col-sm-6" >
                             <!-- <input type="text" name="text" id="task-text" class="form-control" value="{{ old('task') }}"> -->
@@ -55,7 +55,7 @@
 
                         <!-- Task address -->
                         <div class="form-group">
-                            <label for="task-address" class="col-sm-4 control-label">Адрес</label>
+                            <label for="task-address" class="col-sm-4 control-label">Адрес (макс 20 симвл.)</label>
 
                             <div class="col-sm-6">
                                 <input type="text" name="address" id="task-address" class="form-control" value="{{ old('task') }}">
@@ -64,12 +64,12 @@
 
                         <!-- Task Login and UID -->
                         <div class="form-group">
-                            <label for="task-login" class="col-sm-4 control-label">Login</label>
+                            <label for="task-login" class="col-sm-4 control-label">Login (макс 20 симвл.)</label>
                             <div class="col-sm-2">
                                 <input type="text" name="login" id="task-login" class="form-control" value="{{ old('task') }}">
                             </div>
 
-                            <label for="task-uid" class="col-sm-2 control-label">UID</label>
+                            <label for="task-uid" class="col-sm-2 control-label">UID (цифры)</label>
                             <div class="col-sm-2">
                                 <input type="text" name="uid" id="task-uid" class="form-control" value="{{ old('task') }}">
                             </div>
@@ -111,6 +111,10 @@
 
                                 <input type="checkbox" name="cheсksms" value="1">Отправить СМС<Br>
                             </div>
+                        </div>
+
+                        <div class="col-sm-offset-2 class="col-sm-4">
+                            <b>*</b> - обязательные поля
                         </div>
 
                         <!-- Add Task Button -->
