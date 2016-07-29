@@ -69,7 +69,7 @@
                                 <input type="text" name="login" id="task-login" class="form-control" value="{{ old('task') }}">
                             </div>
 
-                            <label for="task-uid" class="col-sm-2 control-label">UID (цифры)</label>
+                            <label for="task-uid" class="col-sm-2 control-label">UID (макс 5 цифр)</label>
                             <div class="col-sm-2">
                                 <input type="text" name="uid" id="task-uid" class="form-control" value="{{ old('task') }}">
                             </div>
