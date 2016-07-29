@@ -85,7 +85,7 @@ class TaskController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:50',
-            'phone1' => 'digits:10',
+            'phone1' => array('regex:/^\+[0-9]{11}$/'),
             'text' => 'max:255',
             'type_id' => 'required',
             'priority_id' => 'required',
