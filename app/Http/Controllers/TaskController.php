@@ -261,8 +261,14 @@ class TaskController extends Controller
             ]);
         }
 
-        // if User of task and state is 'в работе' or 'выполнена' or 'не выполнена'
-        elseif ( ($request->user()->id == $task->user_id) && ( $task->state->name == 'в работе' || $task->state->name == 'выполнена' || $task->state->name == 'не выполнена' )) {
+        // if User of task
+        // and state of task is 'открыта' or 'в работе'
+        // and $request->state_id is 'в работе' or 'выполнена' or 'не выполнена'
+        elseif ( ($request->user()->id == $task->user_id) &&
+                ( $task->state->name == 'открыта' || $task->state->name == 'в работе' ) &&
+                ( $request->state_id == State::where( 'name', 'в работе')->first()->id || $request->state_id == State::where( 'name', 'выполнена')->first()->id
+                    || $request->state_id == State::where( 'name', 'не выполнена')->first()->id ))
+        {
             $task->update(['state_id' => $request->state_id]);
 
             // Add a note with changed status
