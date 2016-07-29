@@ -18,6 +18,12 @@
                         <div class="col-sm-6">{{ $task->name }}</div>
                     </div>
 
+                    <!-- Task text -->
+                    <div class="row">
+                        <label for="task-text" class="col-sm-2 control-label">Описание</label>
+                        <div class="col-sm-8" >{{ $task->text }}</div>
+                    </div>
+
                     <!-- Task type -->
                     <div class="row">
                         <label for="task-type" class="col-sm-2 control-label">Тип</label>
@@ -74,12 +80,6 @@
                                 </div>
                             </form>
                         @endif
-                    </div>
-
-                    <!-- Task text -->
-                    <div class="row">
-                        <label for="task-text" class="col-sm-2 control-label">Описание</label>
-                        <div class="col-sm-8" >{{ $task->text }}</div>
                     </div>
 
                     <!-- Task phone1 -->
