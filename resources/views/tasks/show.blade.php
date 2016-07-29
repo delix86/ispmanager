@@ -106,7 +106,7 @@
                         <div class="col-sm-2"><a target="_blank" href="https://bill.skyline.net.ru/admin/index.cgi?index=7&search=1&type=10&LOGIN={{$task->login}}">{{$task->login}}</a></div>
 
                         <label for="task-uid" class="col-sm-offset-1 col-sm-1 control-label">UID</label>
-                        <div class="col-sm-2"><a target="_blank" href="https://bill.skyline.net.ru/admin/index.cgi?index=15&UID=={{$task->uid}}">{{$task->uid}}</a></div>
+                        <div class="col-sm-2"><a target="_blank" href="https://bill.skyline.net.ru/admin/index.cgi?index=15&UID={{$task->uid}}">{{$task->uid}}</a></div>
                     </div>
 
                     <!-- Task Author -->
