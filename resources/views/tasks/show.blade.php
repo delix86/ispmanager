@@ -85,7 +85,7 @@
                     <!-- Task phone1 -->
                     <div class="row">
                         <label for="task-phone1" class="col-sm-2 control-label">Телефон</label>
-                        <div class="col-sm-6">+7{{ $task->phone1 }}</div>
+                        <div class="col-sm-6">{{ $task->phone1 }}</div>
                     </div>
 
                     <!-- Task fio -->

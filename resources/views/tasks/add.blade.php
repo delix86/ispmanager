@@ -37,10 +37,10 @@
 
                         <!-- Task phone1 -->
                         <div class="form-group">
-                            <label for="task-phone1" class="col-sm-4 control-label">Телефон (10 цифр)</label>
+                            <label for="task-phone1" class="col-sm-4 control-label">Телефон (12 симвл.)</label>
 
                             <div class="col-sm-6">
-                                +7<input type="text" name="phone1" id="task-phone1" class="form-control" value="{{ old('task') }}">
+                                <input type="text" name="phone1" id="task-phone1" class="form-control" placeholder="+79787554299" value="{{ old('task') }}">
                             </div>
                         </div>
 
