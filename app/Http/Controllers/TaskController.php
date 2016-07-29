@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Type;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -84,13 +85,16 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:50',
-            'phone1' => array('regex:/^\+[0-9]{11}$/'),
+            'name' => 'required|max:33',
             'text' => 'max:255',
+            'phone1' => array('regex:/^\+[0-9]{11}$/'),
+            'login' => 'string|max:20',
             'type_id' => 'required',
             'priority_id' => 'required',
             //'taskuser' => 'required',
+            'address' => 'string|max:20',
             'user_id' => 'required',
+            'uid' => 'integer'
         ]);
 
         // return var_dump($request->all());
@@ -112,9 +116,17 @@ class TaskController extends Controller
 
         // Create SMS if checked
         if($request->cheсksms) {
-
+            $text = NULL;
+            if($request->type_id == 1) {
+                $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->address . " " . $request->phone1 . " " . $request->name;
+            }elseif ($request->type_id == 2) {
+                $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->login . " " . $request->phone1 . " " . $request->name;
+            }elseif (($request->type_id == 3)) { // TODO make javascript for left symbols in SMS for Задача
+                $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->login . " " . $request->phone1 . " " . $request->name;
+            }
+            
             $send_result = SmsRepository::send(
-                $request->name,
+                $text,
                 User::where('id', $request->user_id)->first()->phone
             );
 
