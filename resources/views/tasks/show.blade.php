@@ -37,7 +37,9 @@
                         <div class="col-sm-3">{{ $task->state->name }}</div>
 
                         <!-- Choose State -->
-                        @if(( $request->user()->id == $task->author_id ) || ( $request->user()->isAdmin() ) || ($request->user()->id == $task->user_id))
+                        @if(( $request->user()->id == $task->author_id ) ||
+                            ( $request->user()->isAdmin() ) ||
+                            ( ($request->user()->id == $task->user_id) && ( $task->name == 'открыта' || $task->name == 'в работе' )) )
                             <form action="{{url('tasks/' . $task->id) . '/changestate'}}" method="POST" class="form-horizontal">
                                 {{ csrf_field() }}
                                 <div class="col-sm-4">
@@ -49,7 +51,7 @@
                                                     @else
                                                         <option value={{$state->id}}>{{$state->name}}</option>
                                                     @endif
-                                                @elseif($request->user()->id == $task->user_id)
+                                                @elseif($request->user()->id == $task->user_id )
                                                     @if( $state->name == 'в работе' || $state->name == 'выполнена' || $state->name == 'не выполнена')
                                                         @if( $state->id == $task->state_id )
                                                             <option selected value={{$state->id}}>{{$state->name}}</option>
