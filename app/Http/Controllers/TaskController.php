@@ -13,6 +13,7 @@ use App\Task;
 use \App\State;
 use App\Repositories\TaskRepository;
 use App\Repositories\SmsRepository;
+use phpDocumentor\Reflection\Types\Null_;
 
 class TaskController extends Controller
 {
@@ -114,21 +115,17 @@ class TaskController extends Controller
         ]);
         $task->save();
 
-        // Create SMS if checked
+        // Create SMS for task USER if checked
         if($request->cheсksms) {
             $text = NULL;
             if ($request->type_id == 1) {
                 $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->address . " " . $request->phone1 . " " . $request->name;
-                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. Тел. ' . env('SUPPORT_PHONE', false);
             } elseif ($request->type_id == 2) {
                 $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->login . " " . $request->phone1 . " " . $request->name;
-                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. Тел. ' . env('SUPPORT_PHONE', false);
             } elseif (($request->type_id == 3)) { // TODO make javascript for left symbols in SMS for Задача
                 $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->login . " " . $request->phone1 . " " . $request->name;
-                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. Тел. ' . env('SUPPORT_PHONE', false);
             }
 
-            // SMS for task USER
             $send_result_text = SmsRepository::send(
                 $text,
                 User::where('id', $request->user_id)->first()->phone
@@ -141,8 +138,18 @@ class TaskController extends Controller
                 'status' => $send_result_text['status'],
                 'error_code' => $send_result_text['error_code'],
             ]);
+        }
 
-            // SMS for Client
+        // Create SMS for Client if checked and phone number present
+        if( $request->cheсk_client_sms && ($task->phone1 != NULL) ) {
+            $text_client = NULL;
+            if ($request->type_id == 1) {
+                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. Тел. ' . env('SUPPORT_PHONE', false);
+            } elseif ($request->type_id == 2) {
+                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. Тел. ' . env('SUPPORT_PHONE', false);
+            } elseif (($request->type_id == 3)) { // TODO make javascript for left symbols in SMS for Задача
+                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. Тел. ' . env('SUPPORT_PHONE', false);
+            }
             if ($task->phone1) {
                 $send_result_text_client = SmsRepository::send(
                     $text_client,
