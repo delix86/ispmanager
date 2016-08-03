@@ -39,8 +39,12 @@
                         <div class="form-group">
                             <label for="task-phone1" class="col-sm-4 control-label">Телефон (12 симвл.)</label>
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-3">
                                 <input type="text" name="phone1" id="task-phone1" class="form-control" placeholder="+79787554299" value="{{ old('task') }}">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <input type="checkbox" name="cheсk_client_sms" value="1" checked> отправить SMS<Br>
                             </div>
                         </div>
 
@@ -109,7 +113,7 @@
                                         @endforeach
                                     </select></p>
 
-                                <input type="checkbox" name="cheсksms" value="1">Отправить СМС<Br>
+                                <input type="checkbox" name="cheсksms" value="1"> отправить SMS<Br>
                             </div>
                         </div>
 
