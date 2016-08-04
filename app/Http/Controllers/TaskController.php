@@ -119,11 +119,11 @@ class TaskController extends Controller
         if($request->cheсksms) {
             $text = NULL;
             if ($request->type_id == 1) {
-                $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->address . " " . $request->phone1 . " " . $request->name;
+                $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->address . " %2B" . substr($request->phone1, -11) . " " . $request->name;
             } elseif ($request->type_id == 2) {
-                $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->login . " " . $request->phone1 . " " . $request->name;
+                $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->login . " %2B" . substr($request->phone1, -11) . " " . $request->name;
             } elseif (($request->type_id == 3)) { // TODO make javascript for left symbols in SMS for Задача
-                $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->login . " " . $request->phone1 . " " . $request->name;
+                $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->login . " %2B" . substr($request->phone1, -11) . " " . $request->name;
             }
 
             $send_result_text = SmsRepository::send(
@@ -144,26 +144,24 @@ class TaskController extends Controller
         if( $request->cheсk_client_sms && ($task->phone1 != NULL) ) {
             $text_client = NULL;
             if ($request->type_id == 1) {
-                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. Тел. ' . env('SUPPORT_PHONE', false);
+                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. %2B' . substr(env('SUPPORT_PHONE', false), -11);
             } elseif ($request->type_id == 2) {
-                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. Тел. ' . env('SUPPORT_PHONE', false);
+                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. %2B' . substr(env('SUPPORT_PHONE', false), -11);
             } elseif (($request->type_id == 3)) { // TODO make javascript for left symbols in SMS for Задача
-                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. Тел. ' . env('SUPPORT_PHONE', false);
+                $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. %2B' . substr(env('SUPPORT_PHONE', false), -11);
             }
-            if ($task->phone1) {
-                $send_result_text_client = SmsRepository::send(
-                    $text_client,
-                    $task->phone1
-                );
-                $task->sms()->create([
-                    'text' => $text_client,
-                    'sender_id' => $request->user()->id,
-                    //'recipient_id' => $request->user_id,
-                    'phone' => $request->phone1,
-                    'status' => $send_result_text_client['status'],
-                    'error_code' => $send_result_text_client['error_code'],
-                ]);
-            }
+            $send_result_text_client = SmsRepository::send(
+                $text_client,
+                $task->phone1
+            );
+            $task->sms()->create([
+                'text' => $text_client,
+                'sender_id' => $request->user()->id,
+                //'recipient_id' => $request->user_id,
+                'phone' => $request->phone1,
+                'status' => $send_result_text_client['status'],
+                'error_code' => $send_result_text_client['error_code'],
+            ]);
         }
 
         // Create Status Message
