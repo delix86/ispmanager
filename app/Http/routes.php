@@ -53,5 +53,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/sms/add', 'SmsController@add');
     Route::get('/sms/{task}/show', 'SmsController@show');
     Route::get('/sms/add', 'SmsController@add');
+    Route::post('/sms/sendlogin', 'SmsController@sendlogin');
+    
 
 });
