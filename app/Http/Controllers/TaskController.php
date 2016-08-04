@@ -95,7 +95,7 @@ class TaskController extends Controller
             //'taskuser' => 'required',
             'address' => 'string|max:20',
             'user_id' => 'required',
-            'uid' => 'integer|max:20'
+            'uid' => 'integer'
         ]);
 
         // return var_dump($request->all());
