@@ -57,7 +57,7 @@ class SmsController extends Controller
                 'text' => 'required|max:500',
                 'recipient_id' => 'sometimes|exists:users,id',
                 'task_id' => 'sometimes|exists:tasks,id',
-                'phone' => 'sometimes|max:12',
+                'phone' => array('regex:/^\+[0-9]{11}$/'),
             ]);
 
             $send_result = SmsRepository::send(
@@ -67,6 +67,41 @@ class SmsController extends Controller
 
             $sms = Sms::create([
                 'text' => $request->text,
+                'sender_id' => $request->user()->id,
+                'recipient_id' => $request->recipient_id,
+                'phone' => $request->phone,
+                'task_id' => $request->task_id,
+                'status' => $send_result['status'],
+                'error_code' => $send_result['error_code'],
+            ]);
+
+        }
+
+        return redirect('/sms');
+    }
+
+    public function sendlogin(Request $request) {
+
+        if($request && $request->all()) {
+
+            $this->validate($request, [
+                'login' => 'required|max:20',
+                'pass' => 'required|max:20',
+                'uid' => 'integer|required',
+                'recipient_id' => 'sometimes|exists:users,id',
+                'task_id' => 'sometimes|exists:tasks,id',
+                'phone' => array('regex:/^\+[0-9]{11}$/'),
+            ]);
+
+            $text = 'Логин: ' . $request->login . ' Пароль: ' . $request->pass . ' Код: ' . $request->uid . ' Сайт: ' . env ('WEB_SITE', false);
+
+            $send_result = SmsRepository::send(
+                $text,
+                $request->phone
+            );
+
+            $sms = Sms::create([
+                'text' => $text ,
                 'sender_id' => $request->user()->id,
                 'recipient_id' => $request->recipient_id,
                 'phone' => $request->phone,
