@@ -28,9 +28,11 @@
                             <tr>
                                 <th class="table-text"><div><b>№</b></div></th>
                                 <th class="table-text"><div><b>Назавание</b></div></th>
+                                <th class="table-text"><div><b>Логин</b></div></th>
+                                <th class="table-text"><div><b>Адрес</b></div></th>
                                 <th class="table-text"><div><b>Тип</b></div></th>
                                 <th class="table-text"><div><b>Исполнитель</b></div></th>
-                                <th class="table-text"><div><b>Просмотренна</b></div></th>
+                                <th class="table-text"><div><b>Просмтр</b></div></th>
                                 <th class="table-text"><div><b>Приоритет</b></div></th>
                                 <th class="table-text"><div><b>Статус</b></div></th>
                                 <th class="table-text"><div></div>Составлена</th>
@@ -47,7 +49,9 @@
 
                                     <td class="table-text"><div>{{ $task->id }}</div></td>
                                     <td class="table-text"><div><a href="/tasks/{{$task->id}}/show" >{{ $task->name }}</a></div></td>
-                                    <td class="table-text"><div>{{ $task->type->name }}</div></td>
+                                    <td class="table-text"><div><a target="_blank" href="https://{{ env('ABILLS_URL', false) }}/admin/index.cgi?index=7&search=1&type=10&LOGIN={{$task->login}}">{{$task->login}}</a></div></td>
+                                    <td class="table-text"><div>{{ $task->address }}</div></td>
+                                    <td class="table-text"><div>{{ substr( $task->type->name, 0, 12 )}}</div></td>
                                     <td class="table-text"><div>{{ $task->user->name }}</div></td>
                                     <td class="table-text"><div>@if($task->viewed == TRUE)да@else <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> нет@endif</div></td>
                                     <td class="table-text"><div>{{ $task->priority->name }}</div></td>
