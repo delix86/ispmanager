@@ -44,19 +44,20 @@ class TaskController extends Controller
     {
         $users = User::query()->get();
         $logins = Task::query()->distinct('login')->select('login')->get();
-
         $selectedStates = $request->get('states', []);
+        $phone1 = $request->get('phone1', '');
         $usersIds = $request->get('users_ids', []);
         $search = $request->get('search', '');
         $date = $request->get('date', '');
         $selectedLogins = $request->get('logins', []);
         
-        $tasks = $this->tasks->forUser($request->user(), $selectedStates, $selectedLogins, $usersIds, $search, $date);
+        $tasks = $this->tasks->forUser($request->user(), $selectedStates, $selectedLogins, $usersIds, $search, $date, $phone1);
 
         return view('tasks.index', [
             'users' => $users,
             'logins' => $logins,
             'selectedStates' => $selectedStates,
+            'phone1' => $phone1,
             'selectedLogins' => $selectedLogins,
             'tasks' => $tasks,
             'users_ids' => $usersIds,

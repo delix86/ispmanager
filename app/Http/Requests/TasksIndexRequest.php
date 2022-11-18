@@ -17,6 +17,7 @@ class TasksIndexRequest extends Request
             'logins' => 'array',
             'logins.*' => 'min:1',
             'search' => 'max:1000',
+            'phone1'  => 'max:24',
             'date' => 'date_format:Y-m-d',
             'states' => 'array',
             'states_ids.*' => 'required|int|min:1',
