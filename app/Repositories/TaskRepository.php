@@ -34,6 +34,7 @@ class TaskRepository
                 $query->orWhere('text', 'LIKE', '%'.$search.'%');
                 $query->orWhere('fio', 'LIKE', '%'.$search.'%');
                 $query->orWhere('phone1', 'LIKE', '%'.$search.'%');
+                $query->orWhere('address', 'LIKE', '%'.$search.'%');
             });
         }
 
