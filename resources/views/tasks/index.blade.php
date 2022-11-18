@@ -39,31 +39,31 @@
                             </div>
                         </div>
 
-                        <div class="row" style="margin-top: 15px;">
-                            <div class='btn-group col-xs-7'>
+                        <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+                            <div class='btn-group col-xs-12 col-md-7'>
                                 <input type="text" name="search" value="{{ $search }}" placeholder="Поиск" class="pull-left form-control" />
                             </div>
                         </div>
 
-                        <div class="row" style="margin-top: 15px; margin-bottom: 7px;">
-                            <div class='col-xs-3'>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class='col-xs-12 col-md-3' style="margin-bottom: 15px;">
                                 <select id="logins-selector" class="chosen-select" name="logins[]" multiple="multiple" data-placeholder="Логин">
                                     @foreach($logins as $login)
                                         <option value="{{ $login->login }}" @if(in_array($login->login, $selectedLogins)) selected="selected" @endif>{{ $login->login }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class='col-xs-4'>
+                            <div class='col-xs-12 col-md-4' style="margin-bottom: 15px;">
                                 <select id="users-selector" class="chosen-select" name="users_ids[]" multiple="multiple" data-placeholder="Исполнитель">
                                     @foreach($users as $user)
                                         <option value="{{ $user->id }}" @if(in_array($user->id, $users_ids)) selected="selected" @endif>{{ $user->fio }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-xs-2">
+                            <div class="col-xs-12 col-md-2" style="margin-bottom: 15px;">
                                 <input id="filter-date" class="form-control" name="date" autocomplete="off" type="text" value="{{ $date }}" data-date-format="yyyy-mm-dd"  style="max-width: 140px;" placeholder="Дата"/>
                             </div>
-                            <div class="col-xs-2">
+                            <div class="col-xs-12 col-md-2">
                                 <input type="submit" value="Применить" class="btn btn-primary">
                             </div>
                         </div>
