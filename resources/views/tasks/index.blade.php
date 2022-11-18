@@ -39,13 +39,16 @@
                             </div>
                         </div>
 
-                        <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
-                            <div class='btn-group col-xs-12 col-md-7'>
-                                <input type="text" name="search" value="{{ $search }}" placeholder="Поиск" class="pull-left form-control" />
+                        <div class="row" style="margin-top: 15px;">
+                            <div class='btn-group col-xs-12 col-md-3' style="margin-bottom: 15px;">
+                                <input type="text" name="phone1" value="{{ $phone1 }}" placeholder="Телефон" class="form-control" />
+                            </div>
+                            <div class='btn-group col-xs-12 col-md-9' style="margin-bottom: 15px;">
+                                <input type="text" name="search" value="{{ $search }}" placeholder="Поиск" class="form-control" />
                             </div>
                         </div>
 
-                        <div class="row" style="margin-top: 15px;">
+                        <div class="row">
                             <div class='col-xs-12 col-md-3' style="margin-bottom: 15px;">
                                 <select id="logins-selector" class="chosen-select" name="logins[]" multiple="multiple" data-placeholder="Логин">
                                     @foreach($logins as $login)
@@ -125,7 +128,7 @@
 @push('scripts')
     <script>
       $(document).ready(function() {
-        $("#logins-selector").chosen({width: '260px', allow_single_deselect: true});
+        $("#logins-selector").chosen({width: '255px', allow_single_deselect: true});
         $("#users-selector").chosen({width: '354px', allow_single_deselect: true});
 
         $("#filter-date").datepicker();

@@ -17,9 +17,10 @@ class TaskRepository
      * @param  null|array  $usersIds
      * @param  null|string  $search
      * @param  null|string  $date
+     * @param  null|string  $phone1
      * @return LengthAwarePaginator
      */
-    public function forUser(User $user, $selectedStates = [], $selectedLogins = [], $usersIds = [], $search = null, $date = null)
+    public function forUser(User $user, $selectedStates = [], $selectedLogins = [], $usersIds = [], $search = null, $date = null, $phone1 = null)
     {
         $tasksQuery = Task::query();
 
@@ -32,6 +33,7 @@ class TaskRepository
                 $query->where('name', 'LIKE', '%'.$search.'%');
                 $query->orWhere('text', 'LIKE', '%'.$search.'%');
                 $query->orWhere('fio', 'LIKE', '%'.$search.'%');
+                $query->orWhere('phone1', 'LIKE', '%'.$search.'%');
             });
         }
 
@@ -43,8 +45,12 @@ class TaskRepository
             $tasksQuery->whereIn('login', $selectedLogins);
         }
 
-        if (!empty($date)) {
+        if ($date) {
             $tasksQuery->where('created_at', 'LIKE', $date .'%');
+        }
+
+        if ($phone1) {
+            $tasksQuery->where('phone1', 'LIKE', '%'. $phone1 .'%');
         }
 
         if ($user->isAdmin()) {
