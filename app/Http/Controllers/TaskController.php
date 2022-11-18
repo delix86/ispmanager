@@ -4,16 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Type;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 use \App\User;
 use App\Task;
 use \App\State;
 use App\Repositories\TaskRepository;
 use App\Repositories\SmsRepository;
-use phpDocumentor\Reflection\Types\Null_;
+use Illuminate\View\View;
+use App\Http\Requests\TasksIndexRequest;
 
 class TaskController extends Controller
 {
@@ -40,13 +37,31 @@ class TaskController extends Controller
     /**
      * Display a list of all of the user's task.
      *
-     * @param  Request  $request
-     * @return Response
+     * @param  TasksIndexRequest  $request
+     * @return View
      */
-    public function index(Request $request)
+    public function index(TasksIndexRequest $request)
     {
+        $users = User::query()->get();
+        $logins = Task::query()->distinct('login')->select('login')->get();
+
+        $selectedStates = $request->get('states', []);
+        $usersIds = $request->get('users_ids', []);
+        $search = $request->get('search', '');
+        $date = $request->get('date', '');
+        $selectedLogins = $request->get('logins', []);
+        
+        $tasks = $this->tasks->forUser($request->user(), $selectedStates, $selectedLogins, $usersIds, $search, $date);
+
         return view('tasks.index', [
-            'tasks' => $this->tasks->forUser($request->user()),
+            'users' => $users,
+            'logins' => $logins,
+            'selectedStates' => $selectedStates,
+            'selectedLogins' => $selectedLogins,
+            'tasks' => $tasks,
+            'users_ids' => $usersIds,
+            'search' => $search,
+            'date' => $date,
         ]);
     }
 
