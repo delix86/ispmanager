@@ -14,6 +14,8 @@
 
     <!-- Styles -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/chosen/chosen.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/datepicker/css/datepicker.css"/>
 
     <link rel="icon" href="{{ asset('favicon.ico')}}"  type="image/x-icon">
 
@@ -24,6 +26,27 @@
 
         .fa-btn {
             margin-right: 6px;
+        }
+    </style>
+    <style>
+        .chosen-container-multi .chosen-choices {
+            display: block;
+            width: 100%;
+            min-height: 34px !important;
+            padding: 2px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+            box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+            -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            padding-top: 3px !important;
         }
     </style>
 </head>
@@ -93,6 +116,9 @@
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="/assets/chosen/chosen.jquery.js"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    <script src="/assets/datepicker/js/bootstrap-datepicker.js"></script>
+    @stack('scripts')
 </body>
 </html>
