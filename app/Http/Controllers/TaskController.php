@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Type;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use \App\User;
 use App\Task;
@@ -225,14 +226,45 @@ class TaskController extends Controller
      *
      * @param  Task  $task
      * @param  Request  $request
-     * @return Response
+     * @return RedirectResponse
+     * @throws
      */
     public function update(Task $task, Request $request){
         $this->authorize('edit', $task);
 
+        $oldUserId =  $task->user_id;
+
         // Vadidation Request TODO
 
         $task->update($request->all());
+
+        // If USER changed
+        if ($oldUserId != $task->user_id) {
+            // Create SMS for task USER if checked
+            if($request->cheсksms) {
+                $text = NULL;
+                if ($request->type_id == 1) {
+                    $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->address . " %2B" . substr($request->phone1, -11) . " " . $request->name;
+                } elseif ($request->type_id == 2) {
+                    $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->login . " %2B" . substr($request->phone1, -11) . " " . $request->name;
+                } elseif (($request->type_id == 3)) { // TODO make javascript for left symbols in SMS for Задача
+                    $text = mb_convert_case(substr((Type::where('id', $request->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $request->login . " %2B" . substr($request->phone1, -11) . " " . $request->name;
+                }
+
+                $send_result_text = SmsRepository::send(
+                    $text,
+                    User::where('id', $request->user_id)->first()->phone
+                );
+                $task->sms()->create([
+                    'text' => $request->name,
+                    'sender_id' => $request->user()->id,
+                    'recipient_id' => $request->user_id,
+                    'phone' => $request->phone1,
+                    'status' => $send_result_text['status'],
+                    'error_code' => $send_result_text['error_code'],
+                ]);
+            }
+        }
 
         return redirect('/tasks/'.$task->id.'/show');
     }
