@@ -101,7 +101,7 @@
 
                                     <td class="table-text"><div>{{ $task->id }}</div></td>
                                     <td class="table-text"><div><a href="/tasks/{{$task->id}}/show" >{{ $task->name }}</a></div></td>
-                                    <td class="table-text"><div><a target="_blank" href="https://{{ env('ABILLS_URL', false) }}/admin/index.cgi?index=7&search=1&type=10&LOGIN={{$task->login}}">{{$task->login}}</a></div></td>
+                                    <td class="table-text"><div><a target="_blank" href="{{ env('ABILLS_URL', false) }}/#clientcard/{{$task->uid}}">{{$task->login}}</a></div></td>
                                     <td class="table-text"><div>{{ $task->address }}</div></td>
                                     <td class="table-text"><div>{{ substr( $task->type->name, 0, 12 )}}</div></td>
                                     <td class="table-text"><div>{{ $task->author->fio }}</div></td>
