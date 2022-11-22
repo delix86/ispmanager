@@ -44,7 +44,7 @@ class TaskController extends Controller
     {
         $users = User::query()->get();
         $logins = Task::query()->distinct('login')->select('login')->get();
-        $selectedStates = $request->get('states', []);
+        $selectedStates = $request->get('states', [1, 2, 3, 4, 5, 6, 7, 8]);
         $phone1 = $request->get('phone1', '');
         $usersIds = $request->get('users_ids', []);
         $search = $request->get('search', '');
