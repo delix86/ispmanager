@@ -110,7 +110,8 @@
                         <div class="form-group">
                             <label for="task-priority" class="col-sm-4 control-label">Исполнитель *</label>
                             <div class="col-sm-2">
-                                <p><select size="7" multiple name="user_id" class="form-control">
+                                <p>
+                                    <select size="7" multiple name="user_id" class="form-control">
                                         @foreach (\App\User::all() as $user)
                                             @if($user->id == $task->user_id)
                                                 <option selected value={{$user->id}}>{{$user->name}}</option>
@@ -118,7 +119,9 @@
                                                 <option value={{$user->id}}>{{$user->name}}</option>
                                             @endif
                                         @endforeach
-                                    </select></p>
+                                    </select>
+                                </p>
+                                <input type="checkbox" name="cheсksms" value="1"> отправить SMS если изменился Исполнитель<br/>
                             </div>
                         </div>
 

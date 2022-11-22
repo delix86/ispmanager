@@ -4,6 +4,24 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property-read int $id
+ * @property string $name
+ * @property int $author_id
+ * @property int $type_id
+ * @property int $priority_id
+ * @property int $state_id
+ * @property int $user_id
+ * @property bool $viewed
+ * @property string $text
+ * @property string $uid
+ * @property string $fio
+ * @property string $login
+ * @property string $phone1
+ * @property string $phone2
+ * @property string $phone3
+ * @property string $address
+ */
 class Task extends Model
 {
     /**
