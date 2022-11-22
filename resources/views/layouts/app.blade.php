@@ -68,16 +68,6 @@
                     Главная
                 </a>
 
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/tasks') }}">
-                    Задачи
-                </a>
-
-                <!-- News -->
-                <a class="navbar-brand" href="{{ url('/news') }}">
-                    Новости
-                </a>
-
                 <!-- Sms -->
                 <a class="navbar-brand" href="{{ url('/sms') }}">
                     Отправить SMS
