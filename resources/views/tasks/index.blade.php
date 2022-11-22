@@ -136,8 +136,13 @@
         $('#states-buttons a').click(function() {
           let id = $(this).data('state-id');
           if (id === 0) {
-            $('#states-buttons a').addClass('btn-primary');
-            $('#states-inputs input').prop('checked', true);
+            if ($(this).hasClass('btn-primary')) {
+              $('#states-buttons a').removeClass('btn-primary');
+              $('#states-inputs input').prop('checked', false);
+            } else {
+              $('#states-buttons a').addClass('btn-primary');
+              $('#states-inputs input').prop('checked', true);
+            }
           } else {
             console.log($('#state-checkbox-' + id).is(":checked"));
             if ($('#state-checkbox-' + id).is(":checked")) {
