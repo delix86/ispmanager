@@ -169,7 +169,7 @@ class TaskController extends Controller
     {
         $this->authorize('destroy', $task);
 
-        $task->delete();
+        $this->tasksService->delete($task);
 
         return redirect('/tasks');
     }

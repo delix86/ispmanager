@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $address
  * @property int $parent_id
  * @property State $state
+ * @property User $author
+ * @property User $user
  */
 class Task extends Model
 {

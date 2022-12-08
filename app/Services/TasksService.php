@@ -272,6 +272,26 @@ class TasksService
         }
     }
 
+    /**
+     * @param Task $task
+     * @throws \Exception
+     */
+    public function delete(Task $task)
+    {
+        $user = request()->user();
+
+        $this->logger->log($task->getKey(), 'delete_task', $user->id, $user->id);
+
+        // Add a note with changed status
+        $user->notes()->create([
+            //'text' =>  '"'. $request->user()->name . '"'. ' ИЗМЕНИЛ СТАТУС НА: ' . '<' . State::where('id', $request->state_id )->first()->name . '>',
+            'text' =>  ' ЗАЯВКА УДАЛЕНА: ' . '___' . $user->fio . '___',
+            'task_id' => $task->id,
+        ]);
+
+        $task->delete();
+    }
+
     protected function createRevision(Task $oldTask)
     {
         $revisionTask = new Task();
