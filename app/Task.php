@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property-read int $id
@@ -21,9 +22,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $phone2
  * @property string $phone3
  * @property string $address
+ * @property int $parent_id
+ * @property State $state
  */
 class Task extends Model
 {
+    use SoftDeletes;
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

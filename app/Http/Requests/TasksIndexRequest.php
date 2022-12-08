@@ -12,6 +12,8 @@ class TasksIndexRequest extends Request
     public function rules()
     {
         return [
+            'authors_ids' => 'array',
+            'authors_ids.*' => 'required|int|min:1',
             'users_ids' => 'array',
             'users_ids.*' => 'required|int|min:1',
             'logins' => 'array',
