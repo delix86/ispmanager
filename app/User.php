@@ -6,6 +6,16 @@ use App\Task;
 use App\Right;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property-read int $id
+ * @property string $name
+ * @property string $fio
+ * @property string $phone
+ * @property string $email
+ * @property string $address
+ * @property string $password
+ * @property string $remember_token
+ */
 class User extends Authenticatable
 {
     /**

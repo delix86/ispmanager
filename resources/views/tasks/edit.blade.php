@@ -31,7 +31,7 @@
                             <label for="task-text" class="col-sm-4 control-label">Описание</label>
 
                             <div class="col-sm-6" >
-                                <textarea name="text" id="task-text" class="form-control"  value="{{ old('task') }}">{{ $task->text }}</textarea>
+                                <textarea name="text" id="task-text" class="form-control">{{ $task->text }}</textarea>
                             </div>
                         </div>
 
@@ -114,9 +114,9 @@
                                     <select size="7" multiple name="user_id" class="form-control">
                                         @foreach (\App\User::all() as $user)
                                             @if($user->id == $task->user_id)
-                                                <option selected value={{$user->id}}>{{$user->name}}</option>
+                                                <option selected value={{$user->id}}>{{$user->fio}}</option>
                                             @else
-                                                <option value={{$user->id}}>{{$user->name}}</option>
+                                                <option value={{$user->id}}>{{$user->fio}}</option>
                                             @endif
                                         @endforeach
                                     </select>
