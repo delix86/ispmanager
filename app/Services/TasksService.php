@@ -282,10 +282,13 @@ class TasksService
 
         $this->logger->log($task->getKey(), 'delete_task', $user->id, $user->id);
 
+        /** @var State $state */
+        $state = State::query()->where('name', 'удалена')->firstOrFail();
+
         // Add a note with changed status
         $user->notes()->create([
             //'text' =>  '"'. $request->user()->name . '"'. ' ИЗМЕНИЛ СТАТУС НА: ' . '<' . State::where('id', $request->state_id )->first()->name . '>',
-            'text' =>  ' ЗАЯВКА УДАЛЕНА: ' . '___' . $user->fio . '___',
+            'text' =>  ' ИЗМЕНЁН СТАТУС: ' . '___' . $state->name . '___',
             'task_id' => $task->id,
         ]);
 
