@@ -112,13 +112,13 @@
                     <!-- Task Author -->
                     <div class="row">
                         <label for="task-login" class="col-sm-2 control-label">Автор</label>
-                        <div class="col-sm-2"><a href="/tasks/{{App\User::find($task->author_id)->id}}">{{App\User::find($task->author_id)->name}}</a></div>
+                        <div class="col-sm-2"><a href="/tasks?authors_ids[]={{App\User::find($task->author_id)->id}}">{{App\User::find($task->author_id)->fio}}</a></div>
                     </div>
 
                     <!-- Task USER -->
                     <div class="row">
                         <label for="task-login" class="col-sm-offset-0 col-sm-2 control-label">Исполнитель</label>
-                        <div class="col-sm-2"><a href="/tasks/{{$task->user->id}}">{{$task->user->name}}</a></div>
+                        <div class="col-sm-2"><a href="/tasks?users_ids[]={{$task->user->id}}">{{$task->user->fio}}</a></div>
                     </div>
 
                     <!-- Task Date and Update date -->

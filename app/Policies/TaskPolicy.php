@@ -36,7 +36,7 @@ class TaskPolicy
     public function edit(User $user, Task $task)
     {
         //return $user->id === $task->author_id;
-        if($user->id == $task->author_id || $user->isAdmin())
+        if($user->id == $task->author_id || $user->isAdmin() || $user->isSupport())
             return TRUE;
         else
             return FALSE;

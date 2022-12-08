@@ -18,15 +18,18 @@ class TaskRepository
      * @param  null|string  $search
      * @param  null|string  $date
      * @param  null|string  $phone1
+     * @param  null|array $authorsIds
      * @return LengthAwarePaginator
      */
-    public function forUser(User $user, $selectedStates = [], $selectedLogins = [], $usersIds = [], $search = null, $date = null, $phone1 = null)
+    public function forUser(User $user, $selectedStates = [], $selectedLogins = [], $usersIds = [], $search = null, $date = null, $phone1 = null, $authorsIds = [])
     {
         $tasksQuery = Task::query();
 
         if (!empty($selectedStates)) {
             $tasksQuery->whereIn('state_id', $selectedStates);
         }
+
+        $tasksQuery->whereNull('parent_id');
 
         if ($search) {
             $tasksQuery->where(function ($query) use ($search) {
@@ -36,6 +39,10 @@ class TaskRepository
                 $query->orWhere('phone1', 'LIKE', '%'.$search.'%');
                 $query->orWhere('address', 'LIKE', '%'.$search.'%');
             });
+        }
+
+        if (!empty($authorsIds)) {
+            $tasksQuery->whereIn('author_id', $authorsIds);
         }
 
         if (!empty($usersIds)) {

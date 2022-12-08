@@ -155,6 +155,7 @@
               $(this).addClass('btn-primary');
             }
           }
+          return false;
         });
       });
     </script>
