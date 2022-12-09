@@ -20,7 +20,7 @@ class TasksService
     public function create($data)
     {
         /** @var User $worker */
-        $worker = User::query()->firstOrFail($data['user_id']);
+        $worker = User::query()->findOrFail($data['user_id']);
 
         // return var_dump($request->all());
 
