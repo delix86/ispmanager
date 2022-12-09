@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="col-sm-offset-2 col-sm-8">
+        <div class="col-sm-offset-1 col-sm-9">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Задача № {{ $task->id }}
@@ -239,5 +239,5 @@
         </div>
     </div>
 
-    @include('sms.list', $smses)
+    @include('sms.list', ['smses' => $smses, 'class' => 'col-sm-offset-1 col-sm-9'])
 @endsection

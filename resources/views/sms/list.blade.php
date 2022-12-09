@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="">
+    <div class="{{ $class }}">
         <!-- SMS -->
         <div class="panel panel-default">
             <div class="panel-body">
