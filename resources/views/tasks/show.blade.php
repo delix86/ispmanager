@@ -238,4 +238,6 @@
             </div>
         </div>
     </div>
+
+    @include('sms.list', $smses)
 @endsection
