@@ -37,7 +37,7 @@ class TasksService
         $task->save();
 
         // Create SMS for task USER if checked
-        if($data['cheсksms']) {
+        if(isset($data['cheсksms']) && $data['cheсksms']) {
             $text = NULL;
             if ($data['type_id'] == 1) {
                 $text = mb_convert_case(substr((Type::where('id', $task->type_id)->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $task->address . " %2B" . substr($task->phone1, -11) . " " . $task->name;
@@ -64,7 +64,7 @@ class TasksService
         }
 
         // Create SMS for Client if checked and phone number present
-        if( $data['cheсk_client_sms'] && ($task->phone1 != NULL) ) {
+        if( isset($data['cheсk_client_sms']) && $data['cheсk_client_sms'] && ($task->phone1 != NULL) ) {
             $text_client = NULL;
             if ($data['type_id'] == 1) {
                 $text_client = 'По Вашему обращению (' . $task->type->name . ') создана заявка № ' . $task->id . '. %2B' . substr(env('SUPPORT_PHONE', false), -11);
@@ -139,7 +139,7 @@ class TasksService
         if (isset($changes['user_id'])) {
 
             // Create SMS for task USER if checked
-            if($data['cheсksms']) {
+            if(isset($data['cheсksms']) && $data['cheсksms']) {
                 $text = NULL;
                 if ($data['type_id'] == 1) {
                     $text = mb_convert_case(substr((Type::where('id', $data['type_id'])->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " .$data['address'] . " %2B" . substr($data['phone1'], -11) . " " . $data['name'];
