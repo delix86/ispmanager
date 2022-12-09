@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\SmsRepository;
 use App\Services\TasksService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,18 +29,26 @@ class TaskController extends Controller
     protected $tasksService;
 
     /**
+     * The sms repository instance.
+     *
+     * @var SmsRepository
+     */
+    protected $sms;
+
+    /**
      * Create a new controller instance.
      *
      * @param TasksService $tasksService
      * @param  TaskRepository  $tasks
      * @return void
      */
-    public function __construct(TasksService $tasksService, TaskRepository $tasks)
+    public function __construct(TasksService $tasksService, TaskRepository $tasks, SmsRepository $sms)
     {
         $this->middleware('auth');
 
         $this->tasks = $tasks;
         $this->tasksService = $tasksService;
+        $this->sms = $sms;
     }
 
     /**
@@ -82,14 +91,16 @@ class TaskController extends Controller
      * @param  Request  $request
      * @return View
      */
-    public function show( Task $task, Request $request){
+    public function show( Task $task, Request $request)
+    {
         // Check if a task belongs to a user and check if task is viewed by a user, if so change viewed to TRUE
         if ($task->user_id == $request->user()->id && $task->isViewed() == FALSE ) {
             $task->update(['viewed' => TRUE ]);
         }
 
+        $smses = $this->sms->forTask($task);
 
-        return view('tasks.show', compact('task','request') );
+        return view('tasks.show', compact('task','request', 'smses') );
     }
 
     /**

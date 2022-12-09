@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Task;
 use App\User;
 use App\Sms;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -24,6 +25,17 @@ class SmsRepository
         }elseif ($user->isWorker()){
             return Sms::where( 'sender_id' , $user->id )->orWhere('recipient_id' , $user->id)->orderBy('created_at', 'dsc')->paginate(25); // return all tasks
         }
+    }
+
+    /**
+     * Get all of the sms for a given task.
+     *
+     * @param  Task  $task
+     * @return LengthAwarePaginator
+     */
+    public function forTask(Task $task)
+    {
+        return Sms::query()->where( 'task_id' , $task->id )->orderBy('created_at', 'dsc')->paginate(25);
     }
 
     public static function send($text, $phone_number) {
