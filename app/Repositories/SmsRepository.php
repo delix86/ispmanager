@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\User;
 use App\Sms;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Ixudra\Curl\Facades\Curl;
 
 class SmsRepository
@@ -44,7 +45,10 @@ class SmsRepository
             $result['status'] = 0;
             $result['error'] = $response_obj->error;
             $result['error_code'] = $response_obj->error_code;
-            $result['id'] = $response_obj->id;
+            $result['id'] = isset($response_obj->id) ? $response_obj->id : null;
+
+            \Illuminate\Support\Facades\Log::error($response);
+
         } else {
             $result['status'] = 1;
             $result['id'] = $response_obj->id;

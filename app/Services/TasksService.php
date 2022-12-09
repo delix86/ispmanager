@@ -52,6 +52,11 @@ class TasksService
                     $text,
                     User::where('id', request()->user()->id)->first()->phone
                 );
+            } else {
+                $send_result_text = [
+                    'status' => 0,
+                    'error_code' => 'SMS система не активирована'
+                ];
             }
             $task->sms()->create([
                 'text' => $task->name,
@@ -79,7 +84,13 @@ class TasksService
                     $text_client,
                     $task->phone1
                 );
+            } else {
+                $send_result_text_client = [
+                    'status' => 0,
+                    'error_code' => 'SMS система не активирована'
+                ];
             }
+
             $task->sms()->create([
                 'text' => $text_client,
                 'sender_id' => request()->user()->id,
@@ -149,11 +160,18 @@ class TasksService
                     $text = mb_convert_case(substr((Type::where('id', $data['type_id'])->first()->name), 0, 2), MB_CASE_TITLE, "UTF-8") . ") " . $data['login'] . " %2B" . substr($data['phone1'], -11) . " " . $data['name'];
                 }
 
+
+
                 if (env('SMS_ACTIVE')) {
                     $send_result_text = SmsRepository::send(
                         $text,
                         User::where('id', $data['user_id'])->first()->phone
                     );
+                } else {
+                    $send_result_text = [
+                        'status' => 0,
+                        'error_code' => 'SMS система не активирована'
+                    ];
                 }
 
                 $task->sms()->create([
