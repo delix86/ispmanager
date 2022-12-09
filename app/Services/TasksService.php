@@ -19,6 +19,9 @@ class TasksService
 
     public function create($data)
     {
+        /** @var User $worker */
+        $worker = User::query()->firstOrFail($data['user_id']);
+
         // return var_dump($request->all());
 
         $task = Task::create([
@@ -50,7 +53,7 @@ class TasksService
             if (env('SMS_ACTIVE')) {
                 $send_result_text = SmsRepository::send(
                     $text,
-                    User::where('id', request()->user()->id)->first()->phone
+                    $worker->phone
                 );
             } else {
                 $send_result_text = [
@@ -62,7 +65,7 @@ class TasksService
                 'text' => $task->name,
                 'sender_id' => request()->user()->id,
                 'recipient_id' => $task->user_id,
-                'phone' => $task->phone1,
+                'phone' => $worker->phone,
                 'status' => $send_result_text['status'],
                 'error_code' => $send_result_text['error_code'],
             ]);
@@ -165,7 +168,7 @@ class TasksService
                 if (env('SMS_ACTIVE')) {
                     $send_result_text = SmsRepository::send(
                         $text,
-                        User::where('id', $data['user_id'])->first()->phone
+                        $worker->phone
                     );
                 } else {
                     $send_result_text = [
@@ -178,7 +181,7 @@ class TasksService
                     'text' => $data['name'],
                     'sender_id' => request()->user()->id,
                     'recipient_id' => $task->user_id,
-                    'phone' => $task->phone1,
+                    'phone' => $worker->phone,
                     'status' => $send_result_text['status'],
                     'error_code' => $send_result_text['error_code'],
                 ]);
@@ -189,7 +192,7 @@ class TasksService
             // Add a note with changed worker
             request()->user()->notes()->create([
                 //'text' =>  '"'. $request->user()->name . '"'. ' ИЗМЕНИЛ СТАТУС НА: ' . '<' . State::where('id', $request->state_id )->first()->name . '>',
-                'text' =>  ' ИЗМЕНЁН ИСПОЛНИТЕЛЬ: ' . User::where('id', $task->user_id )->first()->fio,
+                'text' =>  ' ИЗМЕНЁН ИСПОЛНИТЕЛЬ: ' . $worker->fio,
                 'task_id' => $task->id,
             ]);
         }
