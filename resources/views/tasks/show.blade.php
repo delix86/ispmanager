@@ -44,14 +44,14 @@
 
                         <!-- Choose State -->
                         @if(( $request->user()->id == $task->author_id ) ||
-                            ( $request->user()->isAdmin() ) ||
+                            ( $request->user()->isAdmin() || $request->user()->isSupport() ) ||
                             ( ($request->user()->id == $task->user_id) && ( $task->state->name == 'открыта' || $task->state->name == 'в работе' )) )
                             <form action="{{url('tasks/' . $task->id) . '/changestate'}}" method="POST" class="form-horizontal">
                                 {{ csrf_field() }}
                                 <div class="col-sm-4">
                                     <p><select size="6" multiple name="state_id" class="form-control">
                                             @foreach ( \App\State::all() as $state )
-                                                @if(( $request->user()->id == $task->author_id ) || ( $request->user()->isAdmin() ))
+                                                @if(( $request->user()->id == $task->author_id ) || ( $request->user()->isAdmin() || $request->user()->isSupport() ))
                                                     @if( $state->id == $task->state_id )
                                                         <option selected value={{$state->id}}>{{$state->name}}</option>
                                                     @else
@@ -134,7 +134,7 @@
 
                     <!-- Close Task Button -->
                     <!-- Coment TODO -->
-                    @if( ( $request->user()->id == $task->author_id || $request->user()->isAdmin() ) && ( $task->state->name == 'выполнена' || $task->state->name == 'не выполнена' ) )
+                    @if( ( $request->user()->id == $task->author_id || $request->user()->isAdmin() || $request->user()->isSupport() ) && ( $task->state->name == 'выполнена' || $task->state->name == 'не выполнена' ) )
                         <div class="btn-group">
                             <form action="{{url('tasks/' . $task->id . '/close')}}" method="POST">
                                 {{ csrf_field() }}
@@ -147,7 +147,7 @@
                     @endif
 
                     <!-- Edit Task Button -->
-                    @if(  $request->user()->id == $task->author_id || $request->user()->isAdmin() )
+                    @if( $request->user()->id == $task->author_id || $request->user()->isAdmin() || $request->user()->isSupport() )
                         <div class="btn-group">
                             <form action="/tasks/{{$task->id}}/edit" method="POST">
                                 {{ csrf_field() }}
@@ -161,7 +161,7 @@
                     @endif
 
                     <!-- Delete Task Button -->
-                    @if( $request->user()->id == $task->author_id || $request->user()->isAdmin() )
+                    @if( $request->user()->id == $task->author_id || $request->user()->isAdmin() || $request->user()->isSupport() )
                         <div class="btn-group">
                             <!--<form class="delete" action="{{url('task/' . $task->id)}}" method="POST">-->
                             <form class="delete" action="{{url('task/' . $task->id)}}" method="POST">
