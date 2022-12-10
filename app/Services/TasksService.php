@@ -259,6 +259,8 @@ class TasksService
 
             $this->createRevision($task);
 
+            $task->state_id = $request->state_id;
+
             $task->save();
 
             // Add a note with changed status
@@ -279,6 +281,7 @@ class TasksService
         {
             $this->createRevision($task);
 
+            $task->state_id = $request->state_id;
             $task->save();
 
             // Add a note with changed status
