@@ -254,17 +254,11 @@ class TasksService
 
     public function changeState($task, $request)
     {
-        $oldTask = $task;
-        $task->fill(['state_id' => $request->state_id]);
-
-        if (!empty($task->getDirty())) {
-            $changes = $task->getDirty();
-
-            $this->createRevision($oldTask);
-        }
-
         // if Admin or Author
         if( $request->user()->isAdmin() || $request->user()->id == $task->author_id ) {
+
+            $this->createRevision($task);
+
             $task->save();
 
             // Add a note with changed status
@@ -283,6 +277,8 @@ class TasksService
             ( $request->state_id == State::where( 'name', 'в работе')->first()->id || $request->state_id == State::where( 'name', 'выполнена')->first()->id
                 || $request->state_id == State::where( 'name', 'не выполнена')->first()->id ))
         {
+            $this->createRevision($task);
+
             $task->save();
 
             // Add a note with changed status
