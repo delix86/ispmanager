@@ -255,7 +255,7 @@ class TasksService
     public function changeState($task, $request)
     {
         // if Admin or Author or Support
-        if( $request->user()->isAdmin() || $request->user()->id == $task->author_id || $request->user->isSupport()) {
+        if( $request->user()->isAdmin() || $request->user()->id == $task->author_id || $request->user()->isSupport()) {
 
             $this->createRevision($task);
 
