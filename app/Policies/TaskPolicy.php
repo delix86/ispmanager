@@ -52,7 +52,7 @@ class TaskPolicy
     public function close(User $user, Task $task)
     {
         //return $user->id === $task->author_id;
-        if($user->id == $task->author_id || $user->isAdmin())
+        if($user->id == $task->author_id || $user->isAdmin() || $user->isSupport())
             return TRUE;
         else
             return FALSE;
@@ -68,7 +68,7 @@ class TaskPolicy
     public function changestate(User $user, Task $task)
     {
         
-        if( $user->isAdmin() || $user->id == $task->author_id || $user->id == $task->user_id)
+        if( $user->isAdmin() || $user->id == $task->author_id || $user->id == $task->user_id || $user->isSupport())
             return TRUE;
         else
             return FALSE;
