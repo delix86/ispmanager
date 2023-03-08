@@ -93,6 +93,10 @@ class TaskController extends Controller
      */
     public function show( Task $task, Request $request)
     {
+        if ($task->parent_id) {
+            abort(404, 'Страница не найдена');
+        }
+
         // Check if a task belongs to a user and check if task is viewed by a user, if so change viewed to TRUE
         if ($task->user_id == $request->user()->id && $task->isViewed() == FALSE ) {
             $task->update(['viewed' => TRUE ]);
